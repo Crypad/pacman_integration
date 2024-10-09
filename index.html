@@ -6,12 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pac-man</title>
     <link rel="stylesheet" href="./assets/style/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./assets/script/script.js" defer></script>
 </head>
 
 <body>
+    <div id="score">
+        <h1>Score : <span id="scoreSpan">0</span></h1>
+    </div>
     <div id="viewport">
+        <div id="cherry"><img src="./assets/img/cherry.png" alt=""></div>
         <div id="pacman"><img src="./assets/img/pacman.gif" alt=""></div>
+        <div id="ghost"><img src="./assets/img/ghost.gif" alt=""></div>
     </div>
 </body>
 

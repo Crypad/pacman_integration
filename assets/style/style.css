@@ -1,11 +1,17 @@
+@font-face {
+    font-family: "pixel";
+    src: url(../font/PixelifySans-VariableFont_wght.ttf);
+}
+
 * {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "pixel";
     box-sizing: border-box;
 }
 
 body {
+    position: relative;
     overflow-x: hidden;
     background-color: #424242;
     color: white;
@@ -27,6 +33,23 @@ video {
     color: white;
     border: 15px solid blue;
 }
+#score {
+    position: absolute;
+    border: 2px solid white;
+    padding: 0 1rem;
+    top: 4%;
+    left: 40%;
+    z-index: 100;
+}
+#cherry {
+    display: flex;
+    position: absolute;
+    width: 40px;
+}
 #pacman {
+    width: 100px;
+    transition: all 100ms linear;
+}
+#ghost {
     width: 100px;
 }
