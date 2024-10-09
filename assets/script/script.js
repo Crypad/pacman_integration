@@ -2,7 +2,7 @@ let viewport = document.getElementById("viewport");
 let pacman = document.getElementById("pacman");
 let cherry = document.getElementById("cherry");
 let scoreSpan = document.getElementById("scoreSpan");
-let ghost = document.getElementById("ghost");
+let ghost1 = document.getElementById("ghost1");
 let cherryX = 0;
 let cherryY = 0;
 let score = 0
@@ -27,8 +27,8 @@ let randomNumberY = 0;
 let randomValueY = 0;
 
 // Variables ghost
-let ghostX = 0;
-let ghostY = 0;
+let ghost1X = 0;
+let ghost1Y = 0;
 
 let minGX = 0;
 let maxGX = 0;
@@ -44,6 +44,8 @@ let randomValueGY = 0;
 
 let randomDirection = 0;
 
+// GAME OVER SCREEN
+let gameOver = document.getElementById("gameOver");
 
 console.dir(viewport);
 
@@ -88,27 +90,27 @@ function checkCherry() {
 }
 
 // Fonction pour faire apparaitre le fantome aléatoirement
-function randomGhostStart() {
-    minGX = 0;
-    maxGX = Math.floor(viewport.clientWidth / 50); // Divide viewport width by 50
-    differenceGX = maxGX - minGX + 1;
-    randomNumberGX = Math.floor(Math.random() * differenceGX);
-    randomValueGX = randomNumberGX * 50;
-    ghostX = randomValueGX;
-    if (ghostX !== 0) {
-        ghostX -= 50;
+function randomGhost1Start() {
+    minG1X = 0;
+    maxG1X = Math.floor(viewport.clientWidth / 50); // Divide viewport width by 50
+    differenceG1X = maxG1X - minG1X + 1;
+    randomNumberG1X = Math.floor(Math.random() * differenceG1X);
+    randomValueG1X = randomNumberG1X * 50;
+    ghost1X = randomValueG1X;
+    if (ghost1X !== 0) {
+        ghost1X -= 50;
     }
 
-    minGY = 0;
-    maxGY = Math.floor(viewport.clientHeight / 50); // Divide viewport height by 50
-    differenceGY = maxGY - minGY + 1;
-    randomNumberGY = Math.floor(Math.random() * differenceGY);
-    randomValueGY = randomNumberGY * 50;
-    ghostY = randomValueGY;
-    if (ghostY === 0 || ghostY === 50) {
-        ghostY += 100;
+    minG1Y = 0;
+    maxG1Y = Math.floor(viewport.clientHeight / 50); // Divide viewport height by 50
+    differenceG1Y = maxG1Y - minG1Y + 1;
+    randomNumberG1Y = Math.floor(Math.random() * differenceG1Y);
+    randomValueG1Y = randomNumberG1Y * 50;
+    ghost1Y = randomValueG1Y;
+    if (ghost1Y === 0 || ghost1Y === 50) {
+        ghost1Y += 100;
     } else {
-        ghostY -= 100;
+        ghost1Y -= 100;
     }
 }
 
@@ -116,22 +118,48 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function moveGhost() {
+function moveGhost1() {
     randomDirection = getRandomInt(1, 4);
     // 1 = left / 2 = up / 3 = right / 4 = down
     if (randomDirection === 1) {
-        ghostX -= 50;
+        if (ghost1X <= 0) {
+            ghost1X += 150;  
+        } else {
+            ghost1X -= 100;
+        }
+        ghost1.style.transform = `translateX(${ghost1X}px) translateY(${ghost1Y}px) scaleX(1)`;
     }
     if (randomDirection === 2) {
-        ghostX -= 50;
+        if (ghost1Y <= 0) {
+            ghost1Y += 150;  
+        } else {
+            ghost1Y -= 100;
+        }
+        ghost1.style.transform = `translateX(${ghost1X}px) translateY(${ghost1Y}px)`;
     }
     if (randomDirection === 3) {
-        ghostX -= 50;
+        if (ghost1X >= viewport.clientWidth) {
+            ghost1X -= 200;  
+        } else {
+            ghost1X += 100;
+        }
+        ghost1.style.transform = `translateX(${ghost1X}px) translateY(${ghost1Y}px) scaleX(-1)`;
     }
     if (randomDirection === 4) {
-        ghostX -= 50;
+        if (ghost1Y >= viewport.clientHeight) {
+            ghost1Y -= 200;  
+        } else {
+            ghost1Y += 100;
+        }
+        ghost1.style.transform = `translateX(${ghost1X}px) translateY(${ghost1Y}px)`;
+    } 
+}
+
+function checkCollisionG1() {
+    if (pacmanX === ghost1X && pacmanY === ghost1Y) {
+        gameOver.style.transform = "scaleY(100%)";
+        console.log("COLLISION HAPPENED");
     }
-    ghost.style.transform = `translateX(${ghostX}px) translateY(${ghostY}px)`;
 }
 
 // Système de mouvement pacman
@@ -148,7 +176,9 @@ function movePacman(direction) {
                 pacmanX -= 50;
             }
             checkCherry();
+            moveGhost1();
             pacman.style.transform = "translate(" + pacmanX + "px," + pacmanY + "px) rotate(180deg)"
+            checkCollisionG1();
             break;
 
         case "haut":
@@ -156,7 +186,9 @@ function movePacman(direction) {
                 pacmanY -= 50;
             }
             checkCherry();
+            moveGhost1();
             pacman.style.transform = "translate(" + pacmanX + "px," + pacmanY + "px) rotate(270deg)"
+            checkCollisionG1();
             break;
 
         case "droite":
@@ -164,7 +196,9 @@ function movePacman(direction) {
                 pacmanX += 50;
             }
             checkCherry();
+            moveGhost1();
             pacman.style.transform = "translate(" + pacmanX + "px," + pacmanY + "px) rotate(0deg)"
+            checkCollisionG1();
             break;
 
         case "bas":
@@ -172,19 +206,22 @@ function movePacman(direction) {
                 pacmanY += 50;
             }
             checkCherry();
+            moveGhost1();
             pacman.style.transform = "translate(" + pacmanX + "px," + pacmanY + "px) rotate(90deg)"
+            checkCollisionG1();
             break;
 
         default:
             break;
     }
-    console.log("Pos X:" + pacmanX, "Pos Y:" + pacmanY);
+    console.log("GHOST","Pos X:" + ghost1X, "Pos Y:" + ghost1Y);
+    console.log("PACMAN","Pos X:" + pacmanX, "Pos Y:" + pacmanY);
 }
 // ----------------------------------------------------------------------
 
 // Initialisation de la position du fantome
-randomGhostStart()
-ghost.style.transform = `translateX(${ghostX}px) translateY(${ghostY}px)`;
+randomGhost1Start()
+ghost1.style.transform = `translateX(${ghost1X}px) translateY(${ghost1Y}px)`;
 
 
 // Initialisation de la position de la cerise
