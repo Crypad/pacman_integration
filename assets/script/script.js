@@ -4,6 +4,7 @@ let cherry = document.getElementById("cherry");
 let scoreSpan = document.getElementById("scoreSpan");
 let ghost1 = document.getElementById("ghost1");
 let ghost2 = document.getElementById("ghost2");
+let retry = document.getElementById("retry");
 
 let cherryX = 0;
 let cherryY = 0;
@@ -167,7 +168,7 @@ function moveGhost1() {
     // 1 = left / 2 = up / 3 = right / 4 = down
     if (randomDirection === 1) {
         if (ghost1X <= 0) {
-            ghost1X += 150;  
+            ghost1X += 150;
         } else {
             ghost1X -= 100;
         }
@@ -175,7 +176,7 @@ function moveGhost1() {
     }
     if (randomDirection === 2) {
         if (ghost1Y <= 0) {
-            ghost1Y += 150;  
+            ghost1Y += 150;
         } else {
             ghost1Y -= 100;
         }
@@ -183,7 +184,7 @@ function moveGhost1() {
     }
     if (randomDirection === 3) {
         if (ghost1X >= viewport.clientWidth) {
-            ghost1X -= 200;  
+            ghost1X -= 200;
         } else {
             ghost1X += 100;
         }
@@ -191,12 +192,12 @@ function moveGhost1() {
     }
     if (randomDirection === 4) {
         if (ghost1Y >= viewport.clientHeight) {
-            ghost1Y -= 200;  
+            ghost1Y -= 200;
         } else {
             ghost1Y += 100;
         }
         ghost1.style.transform = `translateX(${ghost1X}px) translateY(${ghost1Y}px)`;
-    } 
+    }
 }
 
 function moveGhost2() {
@@ -204,7 +205,7 @@ function moveGhost2() {
     // 1 = left / 2 = up / 3 = right / 4 = down
     if (randomDirection === 1) {
         if (ghost2X <= 0) {
-            ghost2X += 150;  
+            ghost2X += 150;
         } else {
             ghost2X -= 100;
         }
@@ -212,7 +213,7 @@ function moveGhost2() {
     }
     if (randomDirection === 2) {
         if (ghost2Y <= 0) {
-            ghost2Y += 150;  
+            ghost2Y += 150;
         } else {
             ghost2Y -= 100;
         }
@@ -220,7 +221,7 @@ function moveGhost2() {
     }
     if (randomDirection === 3) {
         if (ghost2X >= viewport.clientWidth) {
-            ghost2X -= 200;  
+            ghost2X -= 200;
         } else {
             ghost2X += 100;
         }
@@ -228,12 +229,12 @@ function moveGhost2() {
     }
     if (randomDirection === 4) {
         if (ghost2Y >= viewport.clientHeight) {
-            ghost2Y -= 200;  
+            ghost2Y -= 200;
         } else {
             ghost2Y += 100;
         }
         ghost2.style.transform = `translateX(${ghost2X}px) translateY(${ghost2Y}px)`;
-    } 
+    }
 }
 
 // FONCTION DE VERIFICATION DES COLLISIONS
@@ -248,7 +249,12 @@ function checkCollisionG2() {
     if (pacmanX === ghost2X && pacmanY === ghost2Y) {
         gameOver.style.transform = "scaleY(100%)";
         console.log("COLLISION HAPPENED");
+        score = 0;
+        scoreSpan.innerHTML = score;
     }
+    retry.addEventListener("click", function () {
+        gameOver.style.transform = "scaleY(0%)";
+    });
 }
 
 // Système de mouvement pacman
@@ -311,9 +317,9 @@ function movePacman(direction) {
         default:
             break;
     }
-    console.log("GHOST2","Pos X:" + ghost2X, "Pos Y:" + ghost2Y);
-    console.log("GHOST1","Pos X:" + ghost1X, "Pos Y:" + ghost1Y);
-    console.log("PACMAN","Pos X:" + pacmanX, "Pos Y:" + pacmanY);
+    console.log("GHOST2", "Pos X:" + ghost2X, "Pos Y:" + ghost2Y);
+    console.log("GHOST1", "Pos X:" + ghost1X, "Pos Y:" + ghost1Y);
+    console.log("PACMAN", "Pos X:" + pacmanX, "Pos Y:" + pacmanY);
 }
 // ----------------------------------------------------------------------
 
@@ -364,13 +370,13 @@ window.addEventListener("keydown", function (event) {
 hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 
 // listen to events...
-hammertime.on("swipeleft swiperight swipeup swipedown", function(ev) {
+hammertime.on("swipeleft swiperight swipeup swipedown", function (ev) {
     console.dir(ev);
     switch (ev.type) {
         case "swipeleft":
             movePacman("gauche");
             break;
-        
+
         case "swipeup":
             movePacman("haut");
             break;
